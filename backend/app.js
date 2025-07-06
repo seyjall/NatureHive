@@ -18,7 +18,12 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
-
+app.get("/" , (req , res) => {
+    res.send({
+        activeStatus :true, 
+        error:false
+    })
+})
 
 
 
