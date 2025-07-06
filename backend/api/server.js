@@ -3,16 +3,11 @@ import connectDB from '../src/db/index.js';
 import mongoose from 'mongoose';
 import serverless from 'serverless-http';
 
-let cachedServer;
+const handler = serverless(app);
 
-export default async function handler(req, res) {
+export default async function(req, res) {
   if (mongoose.connection.readyState === 0) {
     await connectDB();
   }
-
-  if (!cachedServer) {
-    cachedServer = serverless(app);
-  }
-
-  return cachedServer(req, res);
+  return handler(req, res);
 }
