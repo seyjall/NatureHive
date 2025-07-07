@@ -14,7 +14,7 @@ export class Service {
   async createCheckoutSession(product) {
     try {
       
-       const jwttoken = localStorage.getItem("accessToken");
+       const jwttoken = localStorage.getItem("acessToken");
       const response = await this.api.post("/payments/create-checkout-session", {product} , {
         headers: {
           "Content-Type": "application/json",
