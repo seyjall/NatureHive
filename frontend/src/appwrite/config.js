@@ -41,11 +41,14 @@ async getPost (slug) {
 }
 
 async getPosts(){
-   
+    console.log("baseUrl" , this.api);
+    
     console.log("calling getPosts");
     
    try {
       const response = await this.api.get("/posts");
+
+      console.log("response from getPosts" , response.data); 
       return response.data;
     } catch (error) {
       console.error("getPosts error:", error.response?.data || error.message);

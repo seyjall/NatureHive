@@ -83,7 +83,10 @@ const getPost  = asynchandlers(async(req,res) => {
 })
 
 const getPosts = asynchandlers(async(req ,res) => {
-   const allposts = await Post.find({status : 'active'}); 
+   
+   console.log("getPosts method "); 
+   
+   const allposts = await Post.find({status :'active'}); 
 
    if(!allposts){
     throw new Apierror(400 , "No Posts found")
