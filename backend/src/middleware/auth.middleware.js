@@ -8,7 +8,7 @@ export const verifyJWT = asynchandlers(async(req ,_, next ) => {
    
 
   try {
-     const token =  req.cookies?.acessToken || req.header("Authorization")?.replace("Bearer" , "")
+     const token =  req.cookies?.acessToken || req.header("Authorization")?.replace("Bearer " , "")
      
     
      
