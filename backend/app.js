@@ -46,13 +46,13 @@ import paymentrouter from "./src/routes/payment.routes.js"
 
 app.use("/api/v1/payments" , paymentrouter)
 
-app.use((err, req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.CORS_ORIGIN);
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message
-  });
-});
+// app.use((err, req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", process.env.CORS_ORIGIN);
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.status(err.status || 500).json({
+//     success: false,
+//     message: err.message
+//   });
+// });
 
 export {app}
