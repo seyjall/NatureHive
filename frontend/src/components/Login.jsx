@@ -51,7 +51,9 @@ localStorage.setItem("refreshToken", session.data.refreshToken);
     }
 
  useEffect(() => {
+    console.log("AuthStatus set " , authStatus);
     if (authStatus === true) {
+     console.log("navigating here to join in ")
       navigate("/Join-in");
     }
   }, [authStatus, navigate]);

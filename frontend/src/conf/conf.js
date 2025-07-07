@@ -1,7 +1,7 @@
 
 
 const conf = {
-backendUrl : "https://nature-hive.onrender.com/api/v1"
+backendUrl : " http://localhost:8000/api/v1"
 
 }   
  
