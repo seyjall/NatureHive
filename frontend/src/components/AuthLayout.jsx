@@ -12,7 +12,9 @@ export default function Protected ({
     const navigate = useNavigate() 
     const [loader , setLoader] = useState(true) 
      const authStatus = useSelector(state => state.auth.status )
-   
+     
+     console.log("authentication " , authentication); 
+     console.log("authStatus" , authStatus);
      useEffect(() => {
         if(authentication && authStatus !== authentication ) {
             navigate("/login")
