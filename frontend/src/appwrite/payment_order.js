@@ -1,4 +1,4 @@
-  import conf from "../conf/conf.js";
+
 import axios from "axios"
 
 
@@ -6,7 +6,7 @@ import axios from "axios"
 export class Service {
      constructor() {
     this.api = axios.create({
-      baseURL: conf.backendUrl, 
+      baseURL: import.meta.env.VITE_BACKEND_URL, 
       withCredentials: true,    
     });
   }
