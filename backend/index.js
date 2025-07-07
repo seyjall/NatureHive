@@ -5,9 +5,9 @@ import {app} from './app.js';
 
 
 
-dotenv.config({
-    path : './.env'
-})
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "./.env" });
+}
 
 import mongoose from "mongoose" 
 import { DB_NAME } from "./src/constants.js";
