@@ -55,7 +55,7 @@ export class AuthService {
 
     async getCurrentUser () {
         try {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("acessToken");
         console.log("sending token in get current user" , token ); 
     const response = await this.api.get("/users/current-user", {
       headers: {
