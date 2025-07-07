@@ -17,6 +17,7 @@ const Login = () => {
     const {register , handleSubmit ,  formState: { errors }} = useForm() 
     const [error ,setError ]= useState("") 
     const [loading , setloading] = useState(false); 
+     const authStatus = useSelector((state) => state.auth.status);
   
     const login = async (data) => {
         setError("") 
@@ -35,7 +36,7 @@ localStorage.setItem("refreshToken", session.data.refreshToken);
             if(userData)  {
                 dispatch(authLogin ({userData}))
               console.log("dispatching done")
-             navigate("/Join-in") }
+            }
          }
         }catch(error)
         {
@@ -46,6 +47,13 @@ localStorage.setItem("refreshToken", session.data.refreshToken);
             setloading(false)
         }
     }
+
+ useEffect(() => {
+    if (authStatus === true) {
+      navigate("/Join-in");
+    }
+  }, [authStatus, navigate]);
+
     return(
         <div className="flex items-center justify-center w-full">
             
