@@ -42,7 +42,7 @@ async getPost (slug) {
 }
 
 async getPosts(){
-    console.log("baseUrl" , this.api);
+    console.log("Request URL:", `${this.api.defaults.baseURL}/posts`);
     
     console.log("calling getPosts");
     
