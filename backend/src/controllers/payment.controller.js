@@ -49,8 +49,8 @@ const customerId = user.stripe_customer_id ;
      ], 
      customer: customerId,
     
-     success_url: "http://localhost:5173/Success?session_id={CHECKOUT_SESSION_ID}", 
-      cancel_url: "http://localhost:5173/Failure",
+     success_url: "https://naturehive-lszi.onrender.com/Success?session_id={CHECKOUT_SESSION_ID}", 
+      cancel_url: "https://naturehive-lszi.onrender.com//Failure",
 
     
    });
