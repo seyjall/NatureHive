@@ -16,18 +16,18 @@ export default function Protected ({
      console.log("authentication " , authentication); 
      console.log("authStatus" , authStatus);
      useEffect(() => {
-        if(authentication && authStatus !== authentication ) {
-            navigate("/login")
-        }
-        else if (!authentication && authStatus !== authentication) {
-            navigate("/")
-        }
-       
-        // if (authStatus ===true){
-        //     navigate("/")
-        // } else if (authStatus === false) {
+        // if(authentication && authStatus !== authentication ) {
         //     navigate("/login")
         // }
+        // else if (!authentication && authStatus !== authentication) {
+        //     navigate("/")
+        // }
+       
+        if (authStatus ===true){
+            navigate("/")
+        } else if (authStatus === false) {
+            navigate("/login")
+        }
 
         setLoader(false)
 
