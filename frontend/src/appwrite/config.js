@@ -42,7 +42,8 @@ async getPost (slug) {
 
 async getPosts(){
    
-  
+    console.log("calling getPosts");
+    
    try {
       const response = await this.api.get("/posts");
       return response.data;

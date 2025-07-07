@@ -56,12 +56,13 @@ export class AuthService {
     async getCurrentUser () {
         try {
         const token = localStorage.getItem("acessToken");
-        console.log("sending token in get current user" , token ); 
+        // console.log("sending token in get current user" , token ); 
     const response = await this.api.get("/users/current-user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("data in get  CurrentUser" , response.data); 
 
     return response.data ; 
     } catch (error) {

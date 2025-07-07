@@ -89,6 +89,8 @@ const getPosts = asynchandlers(async(req ,res) => {
     throw new Apierror(400 , "No Posts found")
    }
 
+   console.log("Allposts" , allposts); 
+
    return res.status(201).json(
      new Apiresponse(200 , allposts , "All posts found")
    )
