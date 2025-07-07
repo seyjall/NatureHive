@@ -25,7 +25,8 @@ const Login = () => {
             setloading(true);
             
          const session =    await authService.login(data);
-         console.log( "session created " , session) ;  
+         console.log( "session created " , session) ; 
+         console.log("accessToken" , session.data.accessToken); 
 localStorage.setItem("accessToken", session.accessToken);
 localStorage.setItem("refreshToken", session.refreshToken);       
          if(session) {
