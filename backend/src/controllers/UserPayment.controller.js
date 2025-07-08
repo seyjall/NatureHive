@@ -9,14 +9,27 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const savePayment = asynchandlers(async(req,res) => {
     const {sessionId} = req.body ; 
+
+    console.log("inside savePayment method : ");
+    console.log("sessionId " , sessionId);
+    
+    
    
     const session = await stripe.checkout.sessions.retrieve(sessionId); 
+
+    console.log("session " , session);
+    
   
     const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent 
     ); 
+
+    console.log("Payment Intent" , paymentIntent);
+    
  
    const charge = await stripe.charges.retrieve(paymentIntent.latest_charge);
-
+  
+   console.log("charge" , charge);
+   
 
     const user = await User.findOne({
          stripe_customer_id : paymentIntent.customer
@@ -42,25 +55,29 @@ const savedPayment = await UserPayment.create({
     return res.status(404).json(new Apiresponse(400 , "Failed to save payment"))
   }
 
-//   console.log("saved payment" , savedPayment); 
+   console.log("saved payment" , savedPayment); 
 
   res.status(200).json(new Apiresponse(200 , savedPayment , "Payment saved successfully "));
 
 })
 
 const getPayments = asynchandlers(async(req , res) => {
-    //get user
+  
     const userId  = req.user.id;
-    console.log("useId got " , userId);  
+    console.log("Inside getPayments ")
+    console.log("useId  " , userId);  
     const user =await  User.findById(userId); 
 
     if(!user){
        throw new Apierror(401 , "User not found"); 
     }
 
+    console.log("User " , user); 
+
     const payments = await UserPayment.find({userId: userId}); 
     
-    console.log("payement" , payments)
+    console.log("payments " , payments)
+    
     return res.status(200).json(
         new Apiresponse(200 , payments , "Payments fetched successfully")
     )

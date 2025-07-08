@@ -15,6 +15,12 @@ const createPost = asynchandlers(async(req,res) => {
         throw new Apierror(400 , "all feilds are required"); 
     }
 
+    console.log("inside createpost method:")
+    console.log("Slug " , slug) ;
+    console.log("userid " , userId);
+    
+    
+
     const existedPost = await Post.findOne({
         $or : [ {slug}]
     })
@@ -26,7 +32,7 @@ const file = req.files?.featuredImage?.[0];
 if (!file) {
   throw new Apierror(400, "Featured Image not found");
 }
-
+    console.log("File" , file); 
     const imagelocalepath = path.resolve(file.path) ;
 
     if(!imagelocalepath){
@@ -38,7 +44,7 @@ if (!file) {
         throw new Apierror(400 , "failed to upload on cloudinary")
     }
 
-    console.log("created_post" , cloudinary_url)
+    console.log("uploaded on cloudinary" , cloudinary_url)
   
     const createdpost = await Post.create({
         title , 
@@ -52,6 +58,8 @@ if (!file) {
     if(!createdpost){
         throw new Apierror(400 , "Error in creating post"); 
     }
+
+    console.log("Created Post" , createdpost); 
 
     
 
@@ -71,11 +79,16 @@ if (!file) {
 const getPost  = asynchandlers(async(req,res) => {
     
     const{slug} = req.params ; 
+    console.log("Inside getPost method "); 
+    console.log("slug" , slug);
+    
     const post = await Post.findOne({slug :slug}) ; 
 
     if(!post){
         throw new Apierror(401 , "No post found"); 
     }
+
+    console.log("post found " , post); 
 
     return res.status(201).json(
         new Apiresponse(200 , post , "post found successfully")
@@ -84,7 +97,7 @@ const getPost  = asynchandlers(async(req,res) => {
 
 const getPosts = asynchandlers(async(req ,res) => {
    
-   console.log("getPosts method "); 
+   console.log("inside getPosts method "); 
    
    const allposts = await Post.find({status :'active'}); 
 

@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 export default function ChangePassword() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [data, setData] = useState({
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
+    setData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -19,15 +19,15 @@ export default function ChangePassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.newPassword !== formData.confirmPassword) {
+    if (data.newPassword !== data.confirmPassword) {
       alert("New passwords do not match!");
       return;
     }
 
     try {
       await authService.changePassword({
-        oldPassword: formData.oldPassword,
-        newPassword: formData.newPassword,
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
       });
       alert("Password changed successfully!");
       navigate("/profile");
@@ -45,7 +45,7 @@ export default function ChangePassword() {
           <input
             name="oldPassword"
             type="password"
-            value={formData.oldPassword}
+            value={data.oldPassword}
             onChange={handleChange}
             className="w-full border px-4 py-2 rounded  text-black"
             required
@@ -56,7 +56,7 @@ export default function ChangePassword() {
           <input
             name="newPassword"
             type="password"
-            value={formData.newPassword}
+            value={data.newPassword}
             onChange={handleChange}
             className="w-full border px-4 py-2 rounded  text-black"
             required
@@ -67,7 +67,7 @@ export default function ChangePassword() {
           <input
             name="confirmPassword"
             type="password"
-            value={formData.confirmPassword}
+            value={data.confirmPassword}
             onChange={handleChange}
             className="w-full border px-4 py-2 rounded  text-black"
             required

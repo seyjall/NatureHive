@@ -8,7 +8,7 @@ function AllPosts() {
     const[posts ,setPosts] = useState([])
     useEffect(() => {
         service.getPosts().then((posts) =>{
-           console.log("📬 Raw posts from Appwrite:", posts);
+           
             if(posts && posts.data) {      
                 setPosts(posts.data)
             }else{

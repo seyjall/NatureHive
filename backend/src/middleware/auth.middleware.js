@@ -8,30 +8,30 @@ export const verifyJWT = asynchandlers(async(req ,_, next ) => {
    
 
   try {
-     const token =  req.cookies?.acessToken || req.header("Authorization")?.replace("Bearer " , "")
+     const token =  req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer " , "")
      
     
      
      if(!token){
-       throw new Apierror(401 , "no token generated ")
+       throw new Apierror(401 , "no token generated , error in auth middleware")
      }
 
-     console.log("token in auth middleware " , token); 
+     console.log("frontend token in auth middleware " , token); 
 
     try {
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-     console.log("decoded token in auth middleware " , token); 
+     console.log("decoded token in auth middleware " , decodedToken); 
      
     const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
     
-      console.log("user in auth middleware" , user); 
+
     
     if (!user) {
-      throw new Apierror(401, "Unauthorized: User not found");
+      throw new Apierror(401, "User not found in auth middleware ");
     }
 
     req.user = user;
-    console.log("userid in auth middleware " , req.user.id); 
+    console.log("user attached in auth middleware " , req.user); 
     next();
   } catch (error) {
     console.error("JWT verify error:", error);

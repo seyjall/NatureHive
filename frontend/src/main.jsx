@@ -108,17 +108,14 @@ const router = createBrowserRouter([
   },
    {
         path: "/Success",
-        element: (
-          
+        element: ( 
                 <Success />
          
         ),
     },
      {
         path: "/Failure",
-        element: (
-          
-             
+        element: (   
                 <Failure/>
           
         ),

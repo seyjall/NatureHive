@@ -1,8 +1,6 @@
 
 import axios from "axios"
 
-
-
 export class Service {
      constructor() {
     this.api = axios.create({
@@ -14,18 +12,20 @@ export class Service {
   async createCheckoutSession(product) {
     try {
       
-       const jwttoken = localStorage.getItem("acessToken");
+       const jwttoken = localStorage.getItem("accessToken");
 
-       console.log("acessToken" , jwttoken); 
+       console.log("accessToken" , jwttoken); 
       const response = await this.api.post("/payments/create-checkout-session", {product} , {
         headers: {
           "Content-Type": "application/json",
             Authorization: `Bearer ${jwttoken}`,
         },
       });
+      console.log("response from createCheckout" , response.data); 
+
       return response.data;
     } catch (error) {
-      console.error("createPayment error:", error.response?.data || error.message);
+      console.error("createPayment method  error:", error.response?.data || error.message);
     }
   }
 
@@ -37,7 +37,7 @@ export class Service {
         headers: { "Content-Type": "application/json" },
       }); 
 
-      console.log("response data" , response.data); 
+      console.log("response data from save Payment " , response.data); 
 
     }catch(err){
       console.log("Error in savePayment" , err); 
@@ -47,17 +47,10 @@ export class Service {
   async getPayments( ){
      try{
 
-      console.log("payments method called "); 
-      const response = await this.api.get("/payments/get-payments" ,
-     
-         {
-        headers: { "Content-Type": "application/json" },
-      }); 
+    
+      const response = await this.api.get("/payments/get-payments"); 
 
-      if(!response){
-        console.log("no response")
-      }
-    console.log("data fetched" , response.data); 
+    console.log("response from get Payments " , response.data); 
       return response.data ; 
 
     }catch(err){

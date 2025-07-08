@@ -22,8 +22,6 @@ router.route("/:slug").get(verifyJWT , getPost)
 router.route("/").get(verifyJWT , getPosts)
 
 
-
-
 export default router 
 
  

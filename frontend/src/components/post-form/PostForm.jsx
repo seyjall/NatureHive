@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function PostForm ({post}) {
-    // console.log("postform loaded ")
+  
     const {register , handleSubmit ,watch ,setValue , control, getValues ,  reset ,formState: { errors } } = useForm(
        {defaultValues : {
         title : "" , 
@@ -67,9 +67,7 @@ function PostForm ({post}) {
       // Create post
       response = await service.createPost(formData);
     }
-
-    console.log("Backend response:", response);
-
+     
     if (response) {
       navigate(`/post/${response.data.slug}`);
     }

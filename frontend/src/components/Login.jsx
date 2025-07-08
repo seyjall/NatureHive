@@ -29,8 +29,8 @@ const Login = () => {
             
          const session =    await authService.login(data);
          console.log( "session created " , session) ; 
-         console.log("acessToken" , session.data.acessToken); 
-localStorage.setItem("acessToken", session.data.acessToken);
+         console.log("accessToken" , session.data.accessToken); 
+localStorage.setItem("accessToken", session.data.accessToken);
 localStorage.setItem("refreshToken", session.data.refreshToken);       
          if(session) {
             const userData = await authService.getCurrentUser()

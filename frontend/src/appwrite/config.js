@@ -13,17 +13,15 @@ constructor() {
 
 
 
-//formData : {title , slug , content , featuredImage , status , userId}
 async createPost (formData){
   try {
-      const response = await this.api.post("/posts/createPost",formData , {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await this.api.post("/posts/createPost", formData);
+      
+      console.log("response from createPost" , response.data); 
+
       return response.data;
     } catch (error) {
-      console.error("createPost error:", error.response?.data || error.message);
+      console.error("createPost method error:", error.response?.data || error.message);
       throw error;
     } 
 }
@@ -34,17 +32,18 @@ async createPost (formData){
 async getPost (slug) {
    try {
       const response = await this.api.get(`/posts/${slug}`);
+
+      console.log("response from getPost" , response.data ); 
+
       return response.data;
     } catch (error) {
-      console.error("getPost error:", error.response?.data || error.message);
+      console.error("getPost method error:", error.response?.data || error.message);
       throw error;
     }
 }
 
 async getPosts(){
-    console.log("Request URL:", `${this.api.defaults.baseURL}/posts`);
-    
-    console.log("calling getPosts");
+   
     
    try {
       const response = await this.api.get("/posts");
@@ -52,7 +51,7 @@ async getPosts(){
       console.log("response from getPosts" , response.data); 
       return response.data;
     } catch (error) {
-      console.error("getPosts error:", error.response?.data || error.message);
+      console.error("getPosts method error:", error.response?.data || error.message);
       throw error;
     }
 }

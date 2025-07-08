@@ -6,46 +6,39 @@ import { Apiresponse } from "../utils/Apiresponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
 import path from "path"
+import { log } from "console";
 
-const generateAcessAndRefreshTokens = async(userId) => {
+const generateAccessAndRefreshTokens = async(userId) => {
 
     try{
 
         const user = await User.findById(userId) 
-        const acessToken = user.generateAcessToken() 
+        const accessToken = user.generateAccessToken() 
         const refreshToken = user.generateRefreshToken()
 
         user.refreshToken = refreshToken 
         user.save({validateBeforeSave : false })
 
-        return {acessToken , refreshToken} 
+        return {accessToken , refreshToken} 
 
     }catch(err){
-         throw new Apierror(500 , "something went wrong while generating refresh and acess token")
+         throw new Apierror(500 , "error in method generateAccessAndRefreshTokens")
     }
 }
 
 const registerUser = asynchandlers( async (req , res ) => {
   
-
-  const {name , email , password } = req.body 
+ const {name , email , password } = req.body 
 
 
 if(
     [name , email ,  password].some((feild) => (
                feild?.trim() === "" ))
 ){
-    throw new Apierror(400 , "feilds cant be empty all are req ")
+    throw new Apierror(400 , "feilds cant be empty all are req in registerUser")
 
 }
 
-// console.log("name" , name); 
-
-// console.log("email" , email); 
-// console.log("password" , password); 
-
-// console.log("File path directly:", req.files.avatar[0].path);
-// console.log("Current Working Directory:", process.cwd());
 
 
 const existedUser = await User.findOne({
@@ -54,18 +47,13 @@ const existedUser = await User.findOne({
 
 
 
-
 if(existedUser){
-    throw new Apierror(409 , "user with email or username exist ")
+    throw new Apierror(409 , "user with email or username exist in registerUser method")
 }
 
-// console.log("exist")
 
-// console.log("req.files", req.files);
-// console.log("req.files.avatar", req.files.avatar);
-// console.log("avatar path", req.files.avatar?.[0]);
 const avatarLocalPath =  path.resolve(req.files?.avatar[0]?.path) ; 
-//  console.log("avatar path " , avatarLocalPath)
+
 
 
 if(!avatarLocalPath) {
@@ -74,8 +62,7 @@ if(!avatarLocalPath) {
 
  
     const avatar = await uploadOnCloudinary(avatarLocalPath) 
-    // console.log("File URL:", avatar?.url);
-//  console.log("avatar URL from cloudinary :", avatar?.url);
+
 
 if(!avatar){
     throw new Apierror(400 , "avatar file is required ")
@@ -96,26 +83,15 @@ const createdUser = await User.findById(user._id).select(
 )
 
 if(!createdUser) {
-    throw new Apierror(500 , "error in registering user ")
+    throw new Apierror(500 , "error in registerUser method ")
 }
 
-
-
-
-// console.log("created User" , createdUser); 
-
+console.log("User created  in  RegisterUser method" , createdUser)
 
 return res.status(201).json(
     new Apiresponse(200 , createdUser , "   User registered successfully ")
       
 )
-
-
-
-
-  
- 
-
 
 })
 
@@ -125,7 +101,6 @@ const loginUser = asynchandlers(async (req ,res) => {
     const {email , password} = req.body 
     
 
-    // console.log("email" , email)
     if( !(email)){
 
         throw new Apierror(400 , " email is required ")
@@ -137,24 +112,20 @@ const loginUser = asynchandlers(async (req ,res) => {
         $or : [{email} ]
     })
    
-   
 
-   
-    
 
     if(!user){
-        throw new Apierror(404 , "user not found ")
+        throw new Apierror(404 , "error in loginUser method : user not found")
     }
 
     const ispasswordValid = await user.isPasswordCorrect(password)
      
-    // console.log("password validation " , ispasswordValid);
      
     if(!ispasswordValid){
-        throw new Apierror(401 , "password not valid  ")
+        throw new Apierror(401 , "error in loginUser method : password not valid  ")
     }
 
-   const {acessToken , refreshToken} = await  generateAcessAndRefreshTokens(user._id)
+   const {accessToken , refreshToken} = await  generateAccessAndRefreshTokens(user._id)
 
    const loggedInUser = await User.findById(user._id).select(
      "-password -refreshToken"
@@ -162,22 +133,22 @@ const loginUser = asynchandlers(async (req ,res) => {
 
    const options = {
      httpOnly: true , 
-     secure : true 
+     secure : true ,
+     SameSite: "None" 
    }
+
+   console.log("data in loginUser" , loggedInUser);
 
    return res
    .status(200)
-   .cookie("acessToken" , acessToken , options)
-   .cookie("refreshToken" , refreshToken , options  )
+   .cookie("accessToken" , accessToken , options)
+   .cookie("refreshToken" , refreshToken , options )
    .json(
-     new Apiresponse(200 , {user : loggedInUser , acessToken , refreshToken } , 
+     new Apiresponse(200 , {user : loggedInUser , accessToken , refreshToken } , 
         "user logged in successfully"
      )
    )
-       
-
     
-
 
 })
 
@@ -198,8 +169,12 @@ const logoutUser = asynchandlers(async(req , res ) =>{
 
     const options = {
         httpOnly: true , 
-        secure : true 
+        secure : true , 
+        SameSite : "None"
       }
+
+      console.log("LogoutUser method done");
+      
     
 
       return res
@@ -210,7 +185,7 @@ const logoutUser = asynchandlers(async(req , res ) =>{
    
 })
 
-const refreshAcessToken = asynchandlers(async(req ,res) =>{
+const refreshAccessToken = asynchandlers(async(req ,res) =>{
    const incomingRefreshToken =  req.cookies.refreshToken || req.body.refreshToken
 
    if(!incomingRefreshToken){
@@ -228,29 +203,30 @@ const refreshAcessToken = asynchandlers(async(req ,res) =>{
   
   
   if(incomingRefreshToken !== user?.refreshToken){
-      throw new  Apierror(401 , "refresh token didint match")
+      throw new  Apierror(401 , "refresh token didnt match")
   }
   
    const options = {
       httpOnly : true , 
-      secure : true 
+      secure : true , 
+      SameSite : "None"
    }
   
-   const {acessToken , newrefreshToken} = await generateAcessAndRefreshTokens(user._id)
+   const {accessToken , newrefreshToken} = await generateAccessAndRefreshTokens(user._id)
   
    return res
    .status(200)
-   .cookie("acessToken" , acessToken , options)
+   .cookie("accessToken" , accessToken , options)
    .cookie("refreshToken" , newrefreshToken , options)
    .json(
       new Apiresponse(
           200 , 
           {
-              acessToken , 
+              accessToken , 
              refreshToken : newrefreshToken 
   
           },
-          "Acess token refreshed"
+          "Access token refreshed"
       )
    )
   } catch (error) {
@@ -279,7 +255,9 @@ const changeCurrentPassword = asynchandlers(async (req , res) =>{
 
     user.password = newPassword 
     await user.save({validateBeforeSave : false})
-
+    
+    console.log("changeCurrentPassword method done");
+    
 
     return res
     .status(200)
@@ -311,7 +289,9 @@ const updateAccountDetails = asynchandlers(async(req , res) =>{
         {new : true }
 
     ).select("-password")
-
+    
+    console.log("UpdateAccountDetails method user ", user);
+    
 
    return res 
    .status(200)
@@ -343,6 +323,8 @@ const updateUserAvatar = asynchandlers(async(req , res) =>{
     }} , 
     {new : true }
   ).select("-password")
+
+  console.log("UpdateUserAvatar user :" ,  user)
       
   
   return res.status(200)
@@ -361,7 +343,7 @@ const updateUserAvatar = asynchandlers(async(req , res) =>{
 export {registerUser , 
        loginUser , 
        logoutUser , 
-       refreshAcessToken,
+       refreshAccessToken,
        changeCurrentPassword , 
        getCurrentUser , 
        updateAccountDetails ,    
