@@ -105,7 +105,7 @@ function Tripdetails (){
 
       
         <div className="mt-6 text-center">
-         <p className="text-black">Here is booking </p>
+        
          <Payment_method/>
 
           <ToastContainer></ToastContainer>

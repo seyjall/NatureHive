@@ -84,7 +84,9 @@ function Home () {
   return(
     <div className="bg-white min-h-screen py-16">
     <Container>
-      <h1 className = "text-6xl text-blue-950 pb-2">Click on Image below </h1>
+    <h1 className="text-6xl text-blue-950 pb-4 text-center font-bold">
+  Ready to Explore? <br /> Click on the first image below!
+</h1>
     <Trips></Trips>
    
     

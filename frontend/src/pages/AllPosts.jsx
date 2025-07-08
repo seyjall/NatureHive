@@ -27,7 +27,7 @@ function AllPosts() {
 
         <div>
   <div>
-            <h1 className="text-black">Discover Travel Tales: Read All Posts by Fellow Adventurers!</h1>
+            <h1 className="text-6xl text-blue-950 pb-3 font-bold">Discover Travel Tales: Read All Posts by Fellow Adventurers!</h1>
            
         </div>
         <div className="flex  flex-wrap">

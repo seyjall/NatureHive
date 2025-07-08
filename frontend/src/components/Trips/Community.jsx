@@ -2,7 +2,7 @@ function Community(){
     return(
         <div>
           <div className="border-3 border-black ">
-  <h1 className="  text-blue-950 text-center text-6xl  mb-4">
+  <h1 className="  text-blue-950 text-center text-6xl  mb-4 font-bold">
     Be a Part of Our Thriving Travel Community
   </h1>
   <div className="grid grid-cols-3 grid-rows-3 gap-4 p-4 ">

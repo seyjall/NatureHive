@@ -68,7 +68,7 @@ localStorage.setItem("refreshToken", session.data.refreshToken);
                         <Logo width="100%" />
                     </span>
             </div>
-            <h2 className="text-center text-2xl font-bold leading-tight">Sign in to your account </h2>
+            <h2 className="text-center text-2xl font-bold leading-tight text-black">Sign in to your account </h2>
             <p className="mt-2 text-center text-base text-black/60">
                     Don&apos;t have any account?&nbsp;
                     <Link
@@ -108,7 +108,7 @@ localStorage.setItem("refreshToken", session.data.refreshToken);
                   <Button
                   type = "submit" 
                   className = "w-full ">
-                    {/* sign in */}
+                  
                  {loading ? (
               <span className="loading loading-spinner"></span>
             ) : (
