@@ -20,7 +20,7 @@ const createCheckoutSession = asynchandlers(async(req , res) => {
     }
   
  
-if (!user.stripeCustomerId) {
+if (!user.stripe_customer_id) {
   const customer = await stripe.customers.create({ email: user.email });
   user.stripe_customer_id = customer.id;
   await user.save();
